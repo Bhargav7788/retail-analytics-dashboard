@@ -1,8 +1,6 @@
 import streamlit as st
 import sqlite3
 import pandas as pd
-from prophet import Prophet
-from prophet.plot import plot_plotly
 import plotly.graph_objs as go
 import requests
 from streamlit_lottie import st_lottie
@@ -19,7 +17,6 @@ def load_lottieurl(url):
 
 lottie_chart = load_lottieurl("https://assets10.lottiefiles.com/packages/lf20_w51pcehl.json")
 
-# ✅ Display header with or without animation
 if lottie_chart:
     col1, col2 = st.columns([1, 3])
     with col1:
@@ -95,35 +92,6 @@ ORDER BY Total_Sales DESC;
 """
 df5 = pd.read_sql_query(query5, conn)
 st.dataframe(df5)
-
-# ------------------ FORECASTING ------------------
-st.subheader("🔮 Monthly Sales Forecast")
-query_forecast = """
-SELECT 
-    strftime('%Y-%m', substr([Order Date], 7, 4) || '-' ||
-                      substr([Order Date], 1, 2) || '-' ||
-                      substr([Order Date], 4, 2)) AS Month,
-    SUM(Sales) AS Total_Sales
-FROM orders
-GROUP BY Month
-ORDER BY Month;
-"""
-df_monthly = pd.read_sql_query(query_forecast, conn)
-
-df_prophet = df_monthly.rename(columns={"Month": "ds", "Total_Sales": "y"})
-df_prophet["ds"] = pd.to_datetime(df_prophet["ds"], errors="coerce")
-df_prophet = df_prophet.dropna(subset=["ds", "y"])
-
-model = Prophet()
-model.fit(df_prophet)
-future = model.make_future_dataframe(periods=6, freq="M")
-forecast = model.predict(future)
-
-fig = plot_plotly(model, forecast)
-st.plotly_chart(fig)
-
-with st.expander("📋 View Forecast Data"):
-    st.write(forecast[["ds", "yhat", "yhat_lower", "yhat_upper"]].tail(6))
 
 # ------------------ TEXT TO SQL ------------------
 st.subheader("💬 Smart SQL Assistant (Offline Mode)")
