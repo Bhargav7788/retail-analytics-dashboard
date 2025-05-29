@@ -3,4 +3,3 @@ pandas
 plotly
 requests
 streamlit-lottie
-prophet-stan
