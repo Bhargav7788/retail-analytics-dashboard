@@ -1,0 +1,47 @@
+/* Background + font fix */
+[data-testid="stAppViewContainer"] {
+    background: linear-gradient(to right, #0f2027, #203a43, #2c5364);
+    color: white;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+/* Headers glow */
+h1, h2, h3 {
+    color: #00d4ff !important;
+    text-shadow: 0 0 10px rgba(0, 212, 255, 0.4);
+}
+
+/* Animated fade-in effect */
+@keyframes fadeIn {
+    0% {opacity: 0; transform: translateY(20px);}
+    100% {opacity: 1; transform: translateY(0);}
+}
+
+div.block-container {
+    animation: fadeIn 1s ease-in;
+}
+
+/* Metric cards styling */
+div[data-testid="stMetric"] {
+    background-color: rgba(255, 255, 255, 0.05);
+    padding: 15px;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    box-shadow: 0 0 10px #00f7ff80;
+}
+
+/* Styled buttons */
+.stButton > button {
+    background-color: #00c3ff;
+    color: white;
+    border-radius: 8px;
+    padding: 10px 20px;
+    font-weight: bold;
+    box-shadow: 0px 4px 15px rgba(0, 255, 255, 0.4);
+    transition: all 0.3s ease;
+}
+
+.stButton > button:hover {
+    background-color: #00e6ff;
+    transform: scale(1.05);
+}
